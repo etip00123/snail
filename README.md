@@ -13,11 +13,8 @@ RMC is an alternate atomics system based around programmers explicitly
 specifying visibility order and execution order constraints on memory
 action.
 
-Right now the best documentation for RMC is (sorry) Chapter 3 of my
-[thesis proposal] (https://www.msully.net/stuff/thesprop.pdf). Some more
-background on the ideas behind the system are in the [RMC slides]
-(http://www.msully.net/stuff/rmc-popl-talk.pdf) and the [RMC paper]
-(http://www.cs.cmu.edu/~crary/papers/2015/rmc.pdf), although the paper
+Right now the best documentation for RMC is (sorry) Chapter 3 of my. Some more
+background on the ideas behind the system are in the  and the [RMC paper], although the paper
 is pretty theoretical. The concrete syntax in the slides and original
 paper is a bit out of date, though, so the best documentation for how
 the actual concrete syntax works is the proposal and the code in the
@@ -48,7 +45,7 @@ The dependencies are:
    `--enabled-shared` when you run llvm's configure script.
 
  * To use the (recommended) SMT based backend, you need Microsoft's
-   Z3 SMT solver, available from https://github.com/Z3Prover/z3/
+   Z3 SMT solver, available from 
 
    If Z3 is installed at a nonstandard location, pass its installation
    prefix (the directory where its installed include/ and lib/ directories
@@ -99,13 +96,6 @@ point.
 
 To use RMC with Rust, you need to be running the nightly and add as
 a Cargo dependency
-
-```toml
-[dependencies.rmc-plugin]
-git = "https://github.com/msullivan/rmc-compiler.git"
-[dependencies.rmc]
-git = "https://github.com/msullivan/rmc-compiler.git"
-```
 
 Then you can pull it into your crate with
 
