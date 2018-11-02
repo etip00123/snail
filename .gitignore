@@ -1,0 +1,41 @@
+/Makefile
+config.mk
+config.stamp
+run-rmc
+perf.data*
+
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+*.dwo
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+*~
+
+.gdb_history

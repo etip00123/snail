@@ -1,0 +1,80 @@
+#!/bin/bash
+# Copyright (c) 2014-2017 Michael J. Sullivan
+# Use of this source code is governed by an MIT-style license that can be
+# found in the LICENSE file.
+
+# Dumb little script to output the command line flags that clang needs
+# to use RMC.
+
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+RMC_INCLUDE_DIR="$DIR/include/"
+RMC_LIB="$DIR/RMC.so"
+
+REALIZE_RMC=1
+USE_SMT=1
+
+# Argument handling
+while [ "$1" ]
+do
+	case "$1" in
+		--fallback)
+			shift
+			unset REALIZE_RMC
+			;;
+		--no-smt)
+			shift
+			unset USE_SMT
+			;;
+		--cleanup)
+			shift
+			DO_CLEANUP=1
+			;;
+		--cflags)
+			shift
+			PRINT_CFLAGS=1
+			;;
+		--cxxflags)
+			shift
+			PRINT_CXXFLAGS=1
+			;;
+		--lib)
+			shift
+			PRINT_LIB=1
+			;;
+		--debug-spew)
+			shift
+			DEBUG_SPEW=1
+			;;
+		*)
+			echo "Unknown argument: $1">&2
+			exit 1
+	esac
+done
+
+PASS_ARG="-Xclang -mllvm -Xclang"
+
+if [ -n "$PRINT_CFLAGS" -o -n "$PRINT_CXXFLAGS" ]; then
+   printf -- "-I %q " "$RMC_INCLUDE_DIR"
+
+   if [ $REALIZE_RMC ]; then
+	   printf -- "-DHAS_RMC=1 "
+	   printf -- "-Xclang -load -Xclang %q " "$RMC_LIB"
+	   printf -- "-Xclang -mllvm -Xclang -rmc-pass "
+
+	   if [ $DEBUG_SPEW ]; then
+		   printf -- "$PASS_ARG -rmc-debug-spew "
+	   fi
+
+	   if [ $USE_SMT ]; then
+		   printf -- "$PASS_ARG -rmc-use-smt "
+	   fi
+
+	   if [ $DO_CLEANUP ]; then
+		   printf -- "$PASS_ARG -rmc-cleanup-copies "
+	   fi
+   fi
+fi
+
+if [ -n "$PRINT_LIB" ]; then
+	printf "%s" "$RMC_LIB"
+fi
